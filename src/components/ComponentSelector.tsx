@@ -78,7 +78,8 @@ const ComponentSelector: FC<ComponentSelectorProps> = ({
               onChange={handleTypeChange}
             >
               <Option value="FileUploader">File Uploader</Option>
-              <Option value="VideoBroadcaster">Video Broadcaster</Option>
+              {/* TODO 没有broadcaster!! */}
+              <Option value="VideoBroadcaster">Video Player</Option>
               <Option value="TextBoard">Text Board</Option>
               <Option value="ImageContainer">Image Container</Option>
               <Option value="CommentModule">Comment Module</Option>
