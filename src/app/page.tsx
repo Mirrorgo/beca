@@ -1,95 +1,125 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import { Button, Col, Row, Space } from "antd";
+import React, { useEffect, useState } from "react";
+// import "antd/dist/antd.css";
+import styles from "./index.module.scss";
+import ComponentSelector from "@/components/ComponentSelector";
+import {
+  Checklist,
+  CommentModule,
+  FileUploader,
+  ImageContainer,
+  TextBoard,
+  VideoBroadcaster,
+} from "@/components/GeneratedComponent";
+type EditMode = "edit" | "view";
 
-export default function Home() {
+type ComponentType =
+  | "FileUploader"
+  | "VideoBroadcaster"
+  | "TextBoard"
+  | "ImageContainer"
+  | "CommentModule"
+  | "Checklist";
+
+type ComponentConfig = {
+  componentType: ComponentType;
+  imageSrc?: string;
+  videoSrc?: string;
+  content?: string;
+};
+
+type PageConfigType = {
+  layout: ComponentConfig[];
+};
+
+const Home = () => {
+  const [mode, setMode] = useState<EditMode>("view");
+  const [pageConfig, setPageConfig] = useState<PageConfigType>({
+    layout: [],
+  });
+  useEffect(() => {
+    console.log(pageConfig, "now config");
+  }, [pageConfig]);
+
+  const renderComponents = () => {
+    console.log("rerender");
+    return pageConfig.layout.map(
+      (component: ComponentConfig, index: number) => {
+        console.log(component, "type");
+        switch (component.componentType) {
+          case "FileUploader":
+            console.log("1");
+            return <FileUploader key={index} />;
+          case "VideoBroadcaster":
+            return (
+              <VideoBroadcaster
+                key={index}
+                videoSrc={component.videoSrc as string}
+              />
+            );
+          case "TextBoard":
+            return <TextBoard key={index} />;
+          case "ImageContainer":
+            return (
+              <ImageContainer
+                key={index}
+                imageSrc={component.imageSrc as string}
+              />
+            );
+          case "CommentModule":
+            return <CommentModule key={index} />;
+          case "Checklist":
+            return <Checklist key={index} />;
+          default:
+            console.log("0");
+            return null;
+        }
+      }
+    );
+  };
+  const handleButtonClick = () => {
+    if (mode === "edit") {
+      setMode("view");
+      // 在这里执行保存操作
+    } else if (mode === "view") {
+      setMode("edit");
+      // 在这里执行编辑操作
+    }
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <div className={styles.app}>
+      <Row justify="end">
+        <Col>
+          <div>
+            <Button type="primary" onClick={handleButtonClick}>
+              {mode === "edit" ? "Save" : "Edit"}
+            </Button>
+          </div>
+        </Col>
+      </Row>
+      <div style={{ height: "30px" }} />
+      {mode === "edit" && (
+        <>
+          <Row justify="center">
+            <Col>
+              <ComponentSelector
+                pageConfig={pageConfig}
+                setPageConfig={setPageConfig}
+              />
+            </Col>
+          </Row>
+          <div style={{ height: "30px" }} />
+        </>
+      )}
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+      <Space direction="vertical" className={styles["centered-space"]}>
+        {renderComponents()}
+      </Space>
+    </div>
+  );
+};
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;
+export type { PageConfigType, ComponentConfig, ComponentType };
