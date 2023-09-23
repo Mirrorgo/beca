@@ -58,11 +58,11 @@ const FileUploader: React.FC = () => {
   );
 };
 
-const VideoBroadcaster: FC<{ videoSrc: string }> = ({ videoSrc }) => {
-  // 添加 Video Broadcaster 组件的代码
+const VideoPlayer: FC<{ videoSrc: string }> = ({ videoSrc }) => {
+  // 添加 Video Player 组件的代码
   return (
     <div>
-      {/* <Input placeholder="Video Broadcaster Input" /> */}
+      {/* <Input placeholder="Video Player Input" /> */}
       <ReactPlayer url={videoSrc} />
     </div>
   );
@@ -146,7 +146,7 @@ const Checklist: React.FC = () => {
 
 export {
   FileUploader,
-  VideoBroadcaster,
+  VideoPlayer,
   TextBoard,
   ImageContainer,
   CommentModule,

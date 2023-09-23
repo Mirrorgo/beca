@@ -40,8 +40,8 @@ const ComponentSelector: FC<ComponentSelectorProps> = ({
     switch (selectedType) {
       case "FileUploader":
         return <FileUploaderConfig />;
-      case "VideoBroadcaster":
-        return <VideoBroadcasterConfig />;
+      case "VideoPlayer":
+        return <VideoPlayerConfig />;
       case "TextBoard":
         return <TextBoardConfig />;
       case "ImageContainer":
@@ -78,8 +78,7 @@ const ComponentSelector: FC<ComponentSelectorProps> = ({
               onChange={handleTypeChange}
             >
               <Option value="FileUploader">File Uploader</Option>
-              {/* TODO 没有broadcaster!! */}
-              <Option value="VideoBroadcaster">Video Player</Option>
+              <Option value="VideoPlayer">Video Player</Option>
               <Option value="TextBoard">Text Board</Option>
               <Option value="ImageContainer">Image Container</Option>
               <Option value="CommentModule">Comment Module</Option>
@@ -133,14 +132,14 @@ const FileUploaderConfig: React.FC = () => {
 };
 
 // FIXME: 多个相同组件的src???
-const VideoBroadcasterConfig: React.FC = () => {
-  // 添加Video Broadcaster的配置项
+const VideoPlayerConfig: React.FC = () => {
+  // 添加Video Player 的配置项
   return (
     <>
       <Form.Item
         label="Video Url"
         name="videoSrc"
-        initialValue="https://www.youtube.com/watch?v=LXb3EKWsInQ"
+        initialValue="https://www.youtube.com/watch?v=UzE1I4ZU9b8"
       >
         <Input />
       </Form.Item>

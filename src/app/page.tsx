@@ -10,13 +10,14 @@ import {
   FileUploader,
   ImageContainer,
   TextBoard,
-  VideoBroadcaster,
+  VideoPlayer,
 } from "@/components/GeneratedComponent";
+import { SettingFilled, SettingOutlined } from "@ant-design/icons";
 type EditMode = "edit" | "view";
 
 type ComponentType =
   | "FileUploader"
-  | "VideoBroadcaster"
+  | "VideoPlayer"
   | "TextBoard"
   | "ImageContainer"
   | "CommentModule"
@@ -51,9 +52,9 @@ const Home = () => {
           case "FileUploader":
             console.log("1");
             return <FileUploader key={index} />;
-          case "VideoBroadcaster":
+          case "VideoPlayer":
             return (
-              <VideoBroadcaster
+              <VideoPlayer
                 key={index}
                 videoSrc={component.videoSrc as string}
               />
@@ -92,11 +93,12 @@ const Home = () => {
     <div className={styles.app}>
       <Row justify="end">
         <Col>
-          <div>
+          <Space>
             <Button type="primary" onClick={handleButtonClick}>
               {mode === "edit" ? "Save" : "Edit"}
             </Button>
-          </div>
+            <SettingOutlined style={{ width: "30px" }} />
+          </Space>
         </Col>
       </Row>
       <div style={{ height: "30px" }} />
