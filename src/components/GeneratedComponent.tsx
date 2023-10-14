@@ -42,7 +42,7 @@ const props: UploadProps = {
 const FileUploader: React.FC = () => {
   console.log("render FileUploader");
   // 添加 File Uploader 组件的代码
-  const checkFile = (file) => {
+  const checkFile = (file: File) => {
     // Check file size (in bytes)
     // const maxSize = 5 * 1024 * 1024; // 5 MB
     const maxSize = 100 * 1024; // 5 MB
@@ -53,15 +53,16 @@ const FileUploader: React.FC = () => {
 
     // Check file type (extension)
     const allowedFileTypes = ["jpg", "jpeg", "png", "pdf"]; // Add allowed file types
-    const fileExtension = file.name.split(".").pop().toLowerCase();
+    // const fileExtension = file.name.split(".").pop().toLowerCase();
+    const fileExtension = file.name?.split(".").pop()?.toLowerCase() || "";
     if (!allowedFileTypes.includes(fileExtension)) {
       message.error("Invalid file type. Allowed types: jpg, jpeg, png, pdf");
       return false;
     }
-    
+
     const fileName = file.name;
     if (/^[A-Z]/.test(fileName)) {
-      message.error('File name cannot start with an uppercase letter');
+      message.error("File name cannot start with an uppercase letter");
       return false;
     }
 
