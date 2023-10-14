@@ -22,7 +22,7 @@ const { Dragger } = Upload;
 const props: UploadProps = {
   name: "file",
   multiple: true,
-  //   action: 'https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188',
+  action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
   onChange(info) {
     const { status } = info.file;
     if (status !== "uploading") {
@@ -42,8 +42,35 @@ const props: UploadProps = {
 const FileUploader: React.FC = () => {
   console.log("render FileUploader");
   // 添加 File Uploader 组件的代码
+  const checkFile = (file) => {
+    // Check file size (in bytes)
+    // const maxSize = 5 * 1024 * 1024; // 5 MB
+    const maxSize = 100 * 1024; // 5 MB
+    if (file.size > maxSize) {
+      message.error("File size exceeds the limit (100 KB)");
+      return false;
+    }
+
+    // Check file type (extension)
+    const allowedFileTypes = ["jpg", "jpeg", "png", "pdf"]; // Add allowed file types
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    if (!allowedFileTypes.includes(fileExtension)) {
+      message.error("Invalid file type. Allowed types: jpg, jpeg, png, pdf");
+      return false;
+    }
+    
+    const fileName = file.name;
+    if (/^[A-Z]/.test(fileName)) {
+      message.error('File name cannot start with an uppercase letter');
+      return false;
+    }
+
+    // Additional custom checks can be added here
+
+    return true; // File passes all checks
+  };
   return (
-    <Dragger {...props}>
+    <Dragger {...props} beforeUpload={checkFile}>
       <p className="ant-upload-drag-icon">
         <InboxOutlined />
       </p>
